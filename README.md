@@ -65,8 +65,8 @@ endpoints anyone can use without an account.
 
 ```bash
 export TXD=/path/to/txd
-export CHAIN="TX-testnet-1"
-export NODE="https://full-node-pluto.testnet-1.TX.dev:26657"
+export CHAIN="coreum-testnet-1"
+export NODE="https://full-node-pluto.testnet-1.coreum.dev:26657"
 export CONTRACT="testcore14sqgkp6s9m7k4dyarf7krkkra7vg2z834avkpg3ar9tg6t676cvsxapdvq"
 ```
 
@@ -135,7 +135,7 @@ The same query as a plain HTTP call:
 
 ```bash
 # Base64 of {"hash":{"payload":""}} → eyJoYXNoIjp7InBheWxvYWQiOiIifX0=
-curl -s "https://full-node-pluto.testnet-1.TX.dev:1317/cosmwasm/wasm/v1/contract/$CONTRACT/smart/eyJoYXNoIjp7InBheWxvYWQiOiIifX0="
+curl -s "https://full-node-pluto.testnet-1.coreum.dev:1317/cosmwasm/wasm/v1/contract/$CONTRACT/smart/eyJoYXNoIjp7InBheWxvYWQiOiIifX0="
 ```
 
 Returns `{"data":{"digest":"xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e/rYBF2FpHA="}}`.
