@@ -1,0 +1,33 @@
+[package]
+name = "keccak256-poc"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[features]
+library = []
+
+[dependencies]
+# Pinned to 1.5 (1.x line) to avoid pulling rmp-serde 1.3.1 which requires
+# edition 2024 (Rust 1.85+). Chain accepts both 1.x and 2.x; 1.5 is fine.
+cosmwasm-std = "1.5.0"
+cosmwasm-schema = "1.5.0"
+sha3 = { version = "0.10", default-features = false }
+serde = { version = "1.0", default-features = false, features = ["derive"] }
+thiserror = "1.0"
+
+[dev-dependencies]
+hex = "0.4"

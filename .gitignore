@@ -1,0 +1,14 @@
+# Build cache (multi-GB, machine-local)
+target/
+
+# OS
+.DS_Store
+
+# Editor
+.idea/
+.vscode/
+
+# Note: Cargo.lock and artifacts/ are intentionally tracked.
+# - Cargo.lock pins exact dep versions for reproducible builds.
+# - artifacts/ holds the optimized wasm so reviewers can verify the
+#   deployed bytes match the source without rebuilding.
