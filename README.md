@@ -2,12 +2,12 @@
 
 Minimal CosmWasm contract that exposes a single read-only query: compute the
 **original Keccak-256** (the Ethereum variant, NOT NIST SHA3-256) over an
-arbitrary payload. Deployed on Coreum testnet so anyone can verify the chain
+arbitrary payload. Deployed on TX testnet so anyone can verify the chain
 supports the algorithm without paying gas.
 
 ## What it proves
 
-- A CosmWasm contract on Coreum testnet can compute Keccak-256 byte-exactly
+- A CosmWasm contract on TX testnet can compute Keccak-256 byte-exactly
   matching Ethereum/EVM behavior.
 - The cryptographic primitive needed by Circle's xReserve attester signature
   flow (USDCx mint flow) is available via a contract-level dependency
@@ -37,9 +37,7 @@ keccak256-poc/
 # Local debug + tests (requires Rust 1.85+ for transitive edition-2024 deps)
 cargo +1.85.0 test
 
-# Optimized wasm artifact (deployable). cosmwasm/optimizer:0.17.0 ships a
-# Rust toolchain that handles edition-2024 deps and disables wasm features
-# (reference-types, etc.) the chain doesn't accept.
+# Optimized wasm artifact (deployable).
 docker run --rm -v "$(pwd)":/code \
   --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
   --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
@@ -48,7 +46,7 @@ docker run --rm -v "$(pwd)":/code \
 shasum -a 256 artifacts/keccak256_poc.wasm
 ```
 
-## Deployed on Coreum testnet
+## Deployed on TX testnet
 
 | Field | Value |
 |---|---|
@@ -66,14 +64,9 @@ Adjust `TXD` to your local binary path. The `NODE` and `CHAIN` are testnet
 endpoints anyone can use without an account.
 
 ```bash
-# Path to a Coreum-compatible binary. Examples:
-#   /Users/<you>/Projects/Coreum-repos/tx-chain/bin/txd
-#   ~/bin/cored                                          (Coreum's official binary)
-#   /usr/local/bin/cored
 export TXD=/path/to/txd
-
-export CHAIN="coreum-testnet-1"
-export NODE="https://full-node-pluto.testnet-1.coreum.dev:26657"
+export CHAIN="TX-testnet-1"
+export NODE="https://full-node-pluto.testnet-1.TX.dev:26657"
 export CONTRACT="testcore14sqgkp6s9m7k4dyarf7krkkra7vg2z834avkpg3ar9tg6t676cvsxapdvq"
 ```
 
@@ -100,7 +93,7 @@ would start with `p///...`.
 To verify the digest matches the canonical value yourself:
 
 ```bash
-# laptop — base64-decode the response and hex-encode
+# base64-decode the response and hex-encode
 printf 'xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e/rYBF2FpHA=' | base64 -d | xxd -p -c 64
 # expect: c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
 ```
@@ -142,7 +135,7 @@ The same query as a plain HTTP call:
 
 ```bash
 # Base64 of {"hash":{"payload":""}} → eyJoYXNoIjp7InBheWxvYWQiOiIifX0=
-curl -s "https://full-node-pluto.testnet-1.coreum.dev:1317/cosmwasm/wasm/v1/contract/$CONTRACT/smart/eyJoYXNoIjp7InBheWxvYWQiOiIifX0="
+curl -s "https://full-node-pluto.testnet-1.TX.dev:1317/cosmwasm/wasm/v1/contract/$CONTRACT/smart/eyJoYXNoIjp7InBheWxvYWQiOiIifX0="
 ```
 
 Returns `{"data":{"digest":"xdJGAYb3IzySfn2y3McDwOUAtlPKgic7e/rYBF2FpHA="}}`.
